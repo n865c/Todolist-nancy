@@ -12,12 +12,14 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { AuthContext } from "../../providers/auth";
 import { CardActions, CardContent } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
+  const navigate=useNavigate();
   const setEmailValue = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -34,6 +36,7 @@ export const LoginPage = () => {
         const user = result.user;
         if (user && setUser) {
           setUser(user);
+          navigate('/');
         }
 
         // IdP data available using getAdditionalUserInfo(result)
@@ -57,7 +60,7 @@ export const LoginPage = () => {
         // Signed in
         const user = userCredential.user;
         if (user && setUser) {
-          setUser(user);
+          navigate('/');
       }
         // ...
       })
@@ -73,7 +76,7 @@ export const LoginPage = () => {
         // Signed in
         const user = userCredential.user;
         if (user && setUser) {
-          setUser(user);
+          navigate('/')
       }
         // ...
       })

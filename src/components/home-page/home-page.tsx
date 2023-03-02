@@ -22,11 +22,10 @@ import { db } from '../../firebase';
 import { AuthContext } from '../../providers/auth';
 import { AddTodo } from '../add-todo';
 import { Todo } from '../../models/todo';
-
-// import { TodoCard } from '../add-todo';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import { Checkbox,Card } from '@mui/material';
+import { TodoCard } from '../todo-card';
 type HomePageButtonProps = {
     isActive?: boolean;
     children: ReactNode;
@@ -182,7 +181,7 @@ const HomePage = () => {
     return (
         <div>
             <AddTodo />
-            <Card>
+            <TodoCard>
                 <CardContent sx={{ p: 0 }}>
                     <List>{todoItems}</List>
                 </CardContent>
@@ -235,10 +234,10 @@ const HomePage = () => {
                         </Box>
                     </Grid>
                 </CardActions>
-            </Card>
+            </TodoCard>
 
             {isSmallScreen && (
-                <Card>
+                <TodoCard>
                     <CardContent>
                         <HomePageButton
                             isActive={activeFilter === FilterState.ALL}
@@ -261,7 +260,7 @@ const HomePage = () => {
                             Completed
                         </HomePageButton>
                     </CardContent>
-                </Card>
+                </TodoCard>
             )}
         </div>
     );

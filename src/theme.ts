@@ -18,7 +18,7 @@ const darkTheme=createTheme({
     palette:{
         mode:'dark',
         primary:{
-            main:purple[500],
+            main:'hsl(235,24%,19%),'
         },
         secondary:{
             main:green[500],
