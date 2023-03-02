@@ -22,18 +22,28 @@ userId:user?.uid
 };
   return (
    <Card>
-    <CardContent>
+    <CardContent sx={{p:0,
+    '& .MuiInput-underline:hover:not(Mui-disabled):before':
+    {
+      borderBottom:'none',
+    },
+    '& .MuiInput-underline:after':{borderBottom:'none'},
+  '& .MuiInput-underline:before':{borderBottom:'none'},
+}}
+>
     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
   <RadioButtonUncheckedIcon
   sx={{color:'action.active',mr:1,my:0.5}}
   />
+
   <TextField id="i put-with-sx"
   label="Add Todo"
   variant="standard"
   onKeyPress={onKeyPress}
+  fullWidth
   />
       </Box>
     </CardContent>
    </Card>
   )
-}
+    };

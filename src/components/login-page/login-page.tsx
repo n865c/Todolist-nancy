@@ -7,9 +7,11 @@ import {
   signInWithPopup,
   User,
 } from "firebase/auth";
+import Card from '@mui/material/Card';
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { AuthContext } from "../../providers/auth";
+import { CardActions, CardContent } from "@mui/material";
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 export const LoginPage = () => {
@@ -82,11 +84,13 @@ export const LoginPage = () => {
       });
   };
   return (
-    <div>
+    <Card>
+        <CardContent sx={{'& .MuiTextfield-root':{mb:2}}}>
       <TextField
         id="filled-basic"
         value={email}
         onChange={setEmailValue}
+        fullWidth
         label="Email"
         variant="filled"
       />
@@ -96,18 +100,21 @@ export const LoginPage = () => {
         value={password}
         type="Password"
         onChange={setPasswordValue}
+        fullWidth
         variant="filled"
       />
+      </CardContent>
+      <CardActions>
       <Button color="secondary" variant="text" onClick={signUp}>
         Signup
       </Button>
       <Button variant="text" onClick={loginInWithEmailAndPassword}>
-        Login
+        app Login
       </Button>
       <Button variant="text" onClick={signInWithGoogle}>
         Login with goggle
       </Button>
-      {user && <h1>{user.displayName}</h1>}
-    </div>
+      </CardActions>
+    </Card>
   );
 };

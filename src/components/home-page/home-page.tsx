@@ -1,13 +1,33 @@
 import { collection, where,DocumentData, getDocs ,onSnapshot,doc,query} from 'firebase/firestore';
-import React,{useContext, useEffect, useState} from 'react';
+import React,{FC, ReactNode, useContext, useEffect, useState} from 'react';
 import {db} from '../../firebase';
 import { AuthContext } from '../../providers/auth';
 import { AddTodo } from '../add-todo';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { Card } from '@mui/material';
+import { Box, Card, IconButton, ListItemText } from '@mui/material';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import Radio from '@mui/material/Radio';
+import { Todo } from '../../models/todo';
+import Grid from '@mui/material/Grid'
+import {CheckIcon, CrossIcon} from '../Icons';
+import Button from "@mui/material/Button";
+type HomePageButtonProps={
+    isActive?: boolean;
+    children:ReactNode;
+    onClick?:()=>void;
+}
+const HomePageButton :FC<HomePageButtonProps>=(props)=>{
+    const {isActive=false}=props;
+    return (<Button sx={{color: isActive?'info.light':'text.secondary'}}
+    {...props}>
+        {props.children}</Button>
+    )
+}
 export const HomePage = () => {
-    const [todos,setTodos]=useState<DocumentData[]|null>(null);
+    const [todos,setTodos]=useState<Todo[]|null>(null);
     const {user}= useContext(AuthContext);
     // async function getTodos() {
     //     const todosCol = collection(db, 'todos');
@@ -19,24 +39,79 @@ export const HomePage = () => {
         
         useEffect(() => {
           const unsub = onSnapshot(q, (querySnapshot) => {
-              const todos: DocumentData[] = [];
+              const todos: Todo[] = [];
               querySnapshot.forEach((doc) => {
-                  todos.push(doc.data());
+                  todos.push(doc.data() as Todo);
                   
               });
               setTodos(todos);
           });
           return unsub;
       }, []);
-      const todoItems=todos?.map((todo:DocumentData)=>(
-        <span>{todo.title}</span>
+      const handleRadioCheck=(todo:Todo)=>{
+
+      };
+      const activeTodos=todos?.filter(todo=>!todo.isCompleted)??[];
+      const todoItems=todos?.map((todo:Todo)=>(
+        <ListItem
+         disablePadding sx={{p:0 ,m:0,borderBottom: '1px solid #dfdfdf',
+         '& .delete-icon':{
+            visibility:'hidden',
+         },
+         '&:hover.delete-icon':{
+            visibility:'visible',
+         },
+         }}>
+            <ListItemButton>
+                {
+                    todo.isCompleted?(<CheckIcon/>):
+            (<Radio
+            checked={todo.isCompleted}
+            onChange={()=>handleRadioCheck(todo)}
+            name="radio-buttons"
+            inputProps={{ 'aria-label': todo.title }}
+          />
+            )}
+                <ListItemText>
+                    <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center">
+                        <span>{todo.title}</span>
+                        <IconButton className='delete-icon'>
+                            <CrossIcon/>
+                        </IconButton>
+                    </Grid>
+                </ListItemText>
+            </ListItemButton></ListItem>
       ));
       return <div>
         <AddTodo/>
-        <Card>
-            <CardContent>{todoItems}</CardContent>
-        <CardActions>Buttons will come here</CardActions>
+        <Card sx={{mt: 2}}>
+            <CardContent sx={{p:0}}>
+                <List>
+                {todoItems}</List>
+                </CardContent>
+        <CardActions>
+<Grid container
+alignItems={'center'}
+    justifyContent="space-between">
+        <Box component='span'>{activeTodos?.length} items lefts</Box>
+        <Box sx={{display: 'flex'}}>
+       <HomePageButton
+        isActive>All</HomePageButton>
+       <HomePageButton>Active</HomePageButton>
+       <HomePageButton>Completed</HomePageButton>
+       </Box>
+      <Box>
+        <HomePageButton>
+            Clear Completed
+        </HomePageButton>
+      </Box>
+</Grid>
+        </CardActions>
         </Card>
       </div>
 };
  export default HomePage;
+

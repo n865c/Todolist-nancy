@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#root{
+  background-image: url('./images/bg-desktop-light.jpg');
+  background-repeat: no-repeat;
+}
+@media screen and (max-width:375px) {
+  #root{
+  background-image: url('./images/bg-mobile-light.jpg');
+  }
+  .dark-theme #root{
+    background-image: url('./images/bg-mobile-dark.jpg');
+    }
+  }
+  .dark-theme #root{
+    background-image: url('./images/bg-desktop-dark.jpg');
+    background-repeat: no-repeat;
+  }
