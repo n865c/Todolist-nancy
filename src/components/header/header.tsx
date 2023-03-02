@@ -22,7 +22,7 @@ export const Header = () => {
           <h2>TODO</h2>
           <IconButton 
           color="primary" 
-          aria-label="theme switcher">
+          aria-label="theme switcher" onClick={setCurrentTheme}>
          {currentTheme===Theme.DARK?<SunIcon/>: <MoonIcon/>}
           </IconButton>
         </Grid>

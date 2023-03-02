@@ -14,7 +14,7 @@ type Props={
 }
 
 export const AppThemeProvider:FC<Props>=({children})=>{
-    const addOrremoveBodyClass=(theme:Theme)=>{
+    const addOrRemoveBodyClass=(theme:Theme)=>{
         if(theme===Theme.DARK)
         {
            document.body.classList.add('dark-theme');
@@ -36,6 +36,7 @@ const [theme,_setCurrentTheme]=useState<Theme>(currentTheme);
 
 const setTheme=(theme:Theme)=>{
     sessionStorage.setItem('theme',theme);
+    addOrRemoveBodyClass(theme)
     _setCurrentTheme(theme);
 }
 const value={
